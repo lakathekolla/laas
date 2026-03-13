@@ -2,7 +2,7 @@
     "name": "laas",
     "displayName": "LaaS",
     "description": "Lazy as a Service for developers — launch, stop, restart, and monitor your local dev stack from one clean control panel.",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "publisher": "lakruwanx",
     "license": "MIT",
     "icon": "media/icon.png",

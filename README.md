@@ -1,18 +1,26 @@
 # LaaS
 
-**Lazy as a Service**
+**Lazy as a Service - If you have to do it twice, it should probably become a button.**
 
-LaaS is a VS Code / Antigravity-compatible extension that gives you a **sidebar panel** and status bar buttons to start, stop, and inspect your local dev stack — Laravel, Vite, ngrok or whatever you want with your CMD.
-
-I hear you—the focus isn't on the specific commands, but on the **philosophy of the tool**. You are giving the user a "Dashboard for their Workflow," where the actual terminal work is abstracted away into buttons.
-
-Here is a punchy, developer-centric description for your README that explains the *why* and the *help* it provides:
+LaaS is a VS Code / Antigravity-compatible extension that gives you a **sidebar panel** and status bar buttons to start, stop, and inspect your local dev stack. Laravel, Vite, ngrok or whatever you want with your CMD.
 
 ## 🚀 Why LaaS?
 
-Stop babysitting your terminal tabs. Modern development (Laravel, Vite, Ngrok, Queue Workers, Sync scripts) often requires 3–5 open terminals. Managing these manually is redundant, messy, and a waste of mental energy.
+Because opening 5 terminal tabs every single day like some kind of ritual is not productivity, it is **developer cardio**.
 
-LaaS moves your local dev stack from **manual terminal management** to an **automated service dashboard**.
+Modern dev setups love chaos:
+- one terminal for Laravel
+- one for Vite
+- one for ngrok
+- one for queues
+- one more because something crashed and now you are “just checking”
+
+LaaS saves you from terminal tab babysitting.
+
+Instead of manually summoning your dev stack like a sleep-deprived wizard, LaaS turns it into a clean little dashboard where your commands live, run, and behave themselves.
+Less clicking. Less typing. Less “wait which tab was Vite again?” More pure, refined laziness.
+
+![one click](./images/3.png)
 
 ### The "Help" of this Extension:
 
@@ -61,6 +69,8 @@ LaaS moves your local dev stack from **manual terminal management** to an **auto
 | `laas.autoShowOnStart` | Focus terminal on start | `false` |
 | `laas.statusBarAlignment` | `"left"` or `"right"` | `"left"` |
 
+![crud](./images/2.png) 
+
 ## Example settings.json
 
 ```json
@@ -71,5 +81,8 @@ LaaS moves your local dev stack from **manual terminal management** to an **auto
   "laas.autoShowOnStart": false,
   "laas.statusBarAlignment": "left"
 }
+
 ```
+
+![services](./images/1.png) 
 
