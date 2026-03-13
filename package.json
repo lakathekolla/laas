@@ -1,0 +1,100 @@
+{
+    "name": "laas",
+    "displayName": "LaaS",
+    "description": "Lazy as a Service — start, stop, and inspect your dev servers from the sidebar and status bar.",
+    "version": "0.1.1",
+    "publisher": "lakruwanx",
+    "license": "MIT",
+    "icon": "media/icon.png",
+    "engines": {
+        "vscode": "^1.85.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./dist/extension.js",
+    "contributes": {
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "laas",
+                    "title": "LaaS",
+                    "icon": "media/icon.svg"
+                }
+            ]
+        },
+        "views": {
+            "laas": [
+                {
+                    "id": "laas.panel",
+                    "name": "Dev Servers",
+                    "type": "webview"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "laas.startAll",
+                "title": "LaaS: Start All"
+            },
+            {
+                "command": "laas.stopAll",
+                "title": "LaaS: Stop All"
+            },
+            {
+                "command": "laas.restartAll",
+                "title": "LaaS: Restart All"
+            },
+            {
+                "command": "laas.showOutput",
+                "title": "LaaS: Show Output"
+            }
+        ],
+        "configuration": {
+            "title": "LaaS",
+            "properties": {
+                "laas.laravelCommand": {
+                    "type": "string",
+                    "default": "cd cashier-master-api && php artisan serve",
+                    "description": "Shell command used to start the Laravel server."
+                },
+                "laas.viteCommand": {
+                    "type": "string",
+                    "default": "cd cashier-master-front && npm run dev",
+                    "description": "Shell command used to start the Vite dev server."
+                },
+                "laas.ngrokCommand": {
+                    "type": "string",
+                    "default": "ngrok http 8000",
+                    "description": "Shell command used to start ngrok."
+                },
+                "laas.autoShowOnStart": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Focus each terminal when starting it (otherwise runs in background)."
+                },
+                "laas.statusBarAlignment": {
+                    "type": "string",
+                    "enum": [
+                        "left",
+                        "right"
+                    ],
+                    "default": "left",
+                    "description": "Where the LaaS buttons appear in the status bar."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.30",
+        "@types/vscode": "^1.85.0",
+        "typescript": "^5.4.5"
+    }
+}

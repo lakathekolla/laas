@@ -1,0 +1,32 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="laasBg" x1="32" y1="24" x2="224" y2="232" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#171923"></stop>
+      <stop offset="1" stop-color="#0F766E"></stop>
+    </linearGradient>
+    <linearGradient id="laasAccent" x1="74" y1="80" x2="188" y2="180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F59E0B"></stop>
+      <stop offset="1" stop-color="#F97316"></stop>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="256" height="256" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-opacity="0.28"></feDropShadow>
+    </filter>
+  </defs>
+
+  <rect x="16" y="16" width="224" height="224" rx="52" fill="url(#laasBg)"></rect>
+
+  <g filter="url(#shadow)">
+    <path d="M84 78C84 70.268 90.268 64 98 64H150C157.732 64 164 70.268 164 78V86H172C179.732 86 186 92.268 186 100V164C186 171.732 179.732 178 172 178H84C76.268 178 70 171.732 70 164V100C70 92.268 76.268 86 84 86H92V78H84Z" fill="#F8FAFC"></path>
+    <path d="M98 78C98 78.552 98.448 79 99 79H149C149.552 79 150 78.552 150 78V78C150 77.448 149.552 77 149 77H99C98.448 77 98 77.448 98 78V78Z" fill="#CBD5E1"></path>
+    <path d="M110 115L149 128L110 141V115Z" fill="url(#laasAccent)"></path>
+    <path d="M89 194H167" stroke="#F8FAFC" stroke-width="10" stroke-linecap="round"></path>
+    <path d="M112 86V72C112 64.268 118.268 58 126 58V58C133.732 58 140 64.268 140 72V86" stroke="#A7F3D0" stroke-width="10" stroke-linecap="round"></path>
+  </g>
+
+  <circle cx="192" cy="64" r="22" fill="#111827"></circle>
+  <path d="M183 64H201" stroke="#34D399" stroke-width="8" stroke-linecap="round"></path>
+  <path d="M192 55V73" stroke="#34D399" stroke-width="8" stroke-linecap="round"></path>
+
+  <path d="M48 200C61 188 75 182 92 182" stroke="#F59E0B" stroke-width="8" stroke-linecap="round" opacity="0.9"></path>
+  <path d="M57 219C70 207 84 201 101 201" stroke="#FB923C" stroke-width="8" stroke-linecap="round" opacity="0.7"></path>
+</svg>
