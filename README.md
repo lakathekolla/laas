@@ -8,8 +8,6 @@ I hear you—the focus isn't on the specific commands, but on the **philosophy o
 
 Here is a punchy, developer-centric description for your README that explains the *why* and the *help* it provides:
 
----
-
 ## 🚀 Why LaaS?
 
 Stop babysitting your terminal tabs. Modern development (Laravel, Vite, Ngrok, Queue Workers, Sync scripts) often requires 3–5 open terminals. Managing these manually is redundant, messy, and a waste of mental energy.
