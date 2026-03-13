@@ -1,8 +1,8 @@
 {
     "name": "laas",
     "displayName": "LaaS",
-    "description": "Lazy as a Service — start, stop, and inspect your dev servers from the sidebar and status bar.",
-    "version": "0.1.1",
+    "description": "Lazy as a Service for developers — launch, stop, restart, and monitor your local dev stack from one clean control panel.",
+    "version": "0.1.2",
     "publisher": "lakruwanx",
     "license": "MIT",
     "icon": "media/icon.png",
@@ -58,23 +58,23 @@
             "properties": {
                 "laas.laravelCommand": {
                     "type": "string",
-                    "default": "cd cashier-master-api && php artisan serve",
-                    "description": "Shell command used to start the Laravel server."
+                    "default": "php artisan serve",
+                    "description": "Command used to start the Laravel development server."
                 },
                 "laas.viteCommand": {
                     "type": "string",
-                    "default": "cd cashier-master-front && npm run dev",
-                    "description": "Shell command used to start the Vite dev server."
+                    "default": "npm run dev",
+                    "description": "Command used to start the Vite development server."
                 },
                 "laas.ngrokCommand": {
                     "type": "string",
                     "default": "ngrok http 8000",
-                    "description": "Shell command used to start ngrok."
+                    "description": "Command used to start ngrok."
                 },
                 "laas.autoShowOnStart": {
                     "type": "boolean",
                     "default": false,
-                    "description": "Focus each terminal when starting it (otherwise runs in background)."
+                    "description": "Automatically focus terminals when starting services."
                 },
                 "laas.statusBarAlignment": {
                     "type": "string",
@@ -83,7 +83,7 @@
                         "right"
                     ],
                     "default": "left",
-                    "description": "Where the LaaS buttons appear in the status bar."
+                    "description": "Choose where LaaS controls appear in the status bar."
                 }
             }
         }

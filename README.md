@@ -18,16 +18,16 @@ LaaS is a VS Code / Antigravity-compatible extension that gives you a **sidebar 
 
 | Service | Default command |
 |---------|----------------|
-| Laravel | `cd cashier-master-api && php artisan serve` |
-| Vite    | `cd cashier-master-front && npm run dev` |
+| Laravel | `php artisan serve` |
+| Vite    | `npm run dev` |
 | ngrok   | `ngrok http 8000` |
 
 ## Extension settings
 
 | Setting | Description | Default |
 |---------|-------------|---------|
-| `laas.laravelCommand` | Command to start Laravel | `cd cashier-master-api && php artisan serve` |
-| `laas.viteCommand` | Command to start Vite | `cd cashier-master-front && npm run dev` |
+| `laas.laravelCommand` | Command to start Laravel | `php artisan serve` |
+| `laas.viteCommand` | Command to start Vite | `npm run dev` |
 | `laas.ngrokCommand` | Command to start ngrok | `ngrok http 8000` |
 | `laas.autoShowOnStart` | Focus terminal on start | `false` |
 | `laas.statusBarAlignment` | `"left"` or `"right"` | `"left"` |
@@ -36,8 +36,8 @@ LaaS is a VS Code / Antigravity-compatible extension that gives you a **sidebar 
 
 ```json
 {
-  "laas.laravelCommand": "cd cashier-master-api && php -d xdebug.mode=debug artisan serve",
-  "laas.viteCommand": "cd cashier-master-front && npm run dev",
+  "laas.laravelCommand": "php -d xdebug.mode=debug artisan serve",
+  "laas.viteCommand": "npm run dev",
   "laas.ngrokCommand": "ngrok http 8000",
   "laas.autoShowOnStart": false,
   "laas.statusBarAlignment": "left"

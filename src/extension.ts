@@ -2,8 +2,6 @@ import * as vscode from 'vscode';
 import * as cp from 'child_process';
 import * as os from 'os';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 interface ServerDef {
     id: string;
     title: string;
@@ -26,18 +24,14 @@ interface PanelState {
     }>;
 }
 
-// ─── Constants ─────────────────────────────────────────────────────────────────
-
 const STORAGE_KEY  = 'laas.servers';
 const NGROK_URL_RE = /https:\/\/[^\s]+(?:ngrok\.io|ngrok-free\.app|ngrok\.app)[^\s]*/i;
 
 const DEFAULT_SERVERS: ServerDef[] = [
-    { id: 'laravel', title: 'Laravel', command: 'cd cashier-master-api && php artisan serve' },
-    { id: 'vite',    title: 'Vite',    command: 'cd cashier-master-front && npm run dev' },
+    { id: 'laravel', title: 'Laravel', command: 'php artisan serve' },
+    { id: 'vite',    title: 'Vite',    command: 'npm run dev' },
     { id: 'ngrok',   title: 'ngrok',   command: 'ngrok http 8000' },
 ];
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function getNonce(): string {
     const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -48,8 +42,6 @@ function makeId(title: string): string {
     const base = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'server';
     return `${base}-${Date.now().toString(36)}`;
 }
-
-// ─── WebviewView Provider ─────────────────────────────────────────────────────
 
 class LaasWebviewProvider implements vscode.WebviewViewProvider {
     public static readonly viewId = 'laas.panel';
@@ -77,8 +69,6 @@ class LaasWebviewProvider implements vscode.WebviewViewProvider {
     }
 }
 
-// ─── Manager ──────────────────────────────────────────────────────────────────
-
 class LaasManager {
     private readonly context:  vscode.ExtensionContext;
     private readonly provider: LaasWebviewProvider;
@@ -101,12 +91,9 @@ class LaasManager {
         this.pushState();
     }
 
-    // ── Persistence ────────────────────────────────────────────────────────────
-
     private loadServers(): ServerDef[] {
         const stored = this.context.workspaceState.get<ServerDef[]>(STORAGE_KEY);
         if (Array.isArray(stored) && stored.length > 0) { return stored; }
-        // Migrate from old VS Code settings if present
         const cfg = vscode.workspace.getConfiguration('laas');
         return [
             { id: 'laravel', title: 'Laravel', command: cfg.get<string>('laravelCommand', DEFAULT_SERVERS[0].command) },
@@ -118,8 +105,6 @@ class LaasManager {
     private async save(): Promise<void> {
         await this.context.workspaceState.update(STORAGE_KEY, this.servers);
     }
-
-    // ── CRUD ──────────────────────────────────────────────────────────────────
 
     addServer(title: string, command: string): void {
         this.servers.push({ id: makeId(title), title: title.trim(), command: command.trim() });
@@ -149,8 +134,6 @@ class LaasManager {
         void this.save();
         this.pushState();
     }
-
-    // ── Server lifecycle ───────────────────────────────────────────────────────
 
     async startById(id: string): Promise<void> {
         const def = this.servers.find(s => s.id === id);
@@ -191,13 +174,9 @@ class LaasManager {
         await this.startAll();
     }
 
-    // ── Process spawning ──────────────────────────────────────────────────────
-
     private spawnServer(def: ServerDef): RunningServer {
         const manager = this;
         const cwd = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? os.homedir();
-        // Use the user's login shell (e.g. zsh) with -l (login) and -i (interactive)
-        // so that ~/.zshrc is sourced and custom aliases / functions are available.
         const userShell = process.env.SHELL ?? '/bin/zsh';
         const proc = cp.spawn(userShell, ['-l', '-i', '-c', def.command], { cwd, env: { ...process.env } });
 
@@ -239,8 +218,6 @@ class LaasManager {
         return { terminal, proc, ngrokUrl };
     }
 
-    // ── Commands ───────────────────────────────────────────────────────────────
-
     private registerCommands(): void {
         this.reg('laas.startAll',   async () => this.startAll());
         this.reg('laas.stopAll',    async () => this.stopAll());
@@ -273,15 +250,13 @@ class LaasManager {
         return vscode.workspace.getConfiguration('laas').get<T>(key, def);
     }
 
-    // ── Status bar ─────────────────────────────────────────────────────────────
-
     private createStatusBar(): void {
         const side = this.cfg<string>('statusBarAlignment', 'left') === 'right'
             ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left;
 
-        this.startBtn  = this.makeBtn(side, 100, '$(play) LaaS',    'LaaS: Start All',   'laas.startAll');
-        this.stopBtn   = this.makeBtn(side, 99,  '$(stop) LaaS',    'LaaS: Stop All',    'laas.stopAll');
-        this.outputBtn = this.makeBtn(side, 98,  '$(terminal) LaaS','LaaS: Show Output', 'laas.showOutput');
+        this.startBtn  = this.makeBtn(side, 100, '$(play) LaaS',    'Start',   'laas.startAll');
+        this.stopBtn   = this.makeBtn(side, 99,  '$(stop) LaaS',    'Stop',    'laas.stopAll');
+        this.outputBtn = this.makeBtn(side, 98,  '$(terminal) LaaS','Output', 'laas.showOutput');
 
         this.startBtn.show();
         this.outputBtn.show();
@@ -303,8 +278,6 @@ class LaasManager {
             else     { this.stopBtn.backgroundColor = undefined; this.stopBtn.hide(); }
         }
     }
-
-    // ── State ──────────────────────────────────────────────────────────────────
 
     private pushState(): void {
         this.updateStatusBar();
@@ -341,8 +314,6 @@ class LaasManager {
         this.running.clear();
     }
 }
-
-// ─── HTML ─────────────────────────────────────────────────────────────────────
 
 function buildHtml(sn: string, scn: string): string {
     return /* html */`<!DOCTYPE html>
@@ -585,8 +556,6 @@ window.addEventListener('message', ({data}) => {
 </body>
 </html>`;
 }
-
-// ─── Entry points ─────────────────────────────────────────────────────────────
 
 let manager: LaasManager | undefined;
 
