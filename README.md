@@ -2,17 +2,48 @@
 
 **Lazy as a Service**
 
-LaaS is a VS Code / Antigravity-compatible extension that gives you a **sidebar panel** and status bar buttons to start, stop, and inspect your local dev stack — Laravel, Vite, and ngrok.
+LaaS is a VS Code / Antigravity-compatible extension that gives you a **sidebar panel** and status bar buttons to start, stop, and inspect your local dev stack — Laravel, Vite, ngrok or whatever you want with your CMD.
+
+I hear you—the focus isn't on the specific commands, but on the **philosophy of the tool**. You are giving the user a "Dashboard for their Workflow," where the actual terminal work is abstracted away into buttons.
+
+Here is a punchy, developer-centric description for your README that explains the *why* and the *help* it provides:
+
+---
+
+## 🚀 Why LaaS?
+
+Stop babysitting your terminal tabs. Modern development (Laravel, Vite, Ngrok, Queue Workers, Sync scripts) often requires 3–5 open terminals. Managing these manually is redundant, messy, and a waste of mental energy.
+
+LaaS moves your local dev stack from **manual terminal management** to an **automated service dashboard**.
+
+### The "Help" of this Extension:
+
+* **Eliminate Redundant Coding:** Instead of re-typing long one-liners or searching through your `.zshrc` history, save your complex commands as a service once.
+* **Headless Background Management:** Commands run in independent **Pseudoterminals**. You can close your terminal panel, work on your code, and your services stay alive in the background until you hit "Stop."
+* **Unified Environment:** No more "Terminal Hunting." One sidebar, one status bar, and one-click "Start All" to fire up your entire project ecosystem.
+* **Custom Cleanup:** Traditional terminals just "kill" a process. LaaS allows you to define **Custom Stop Commands** (e.g., `valet stop`, `docker-compose down`) to ensure your environment is cleaned up properly.
+* **Developer Sandbox:** Need to run an FTP sync script that watches for changes? Add it as a service. Need a local AI agent running in the background? Add it as a service. If it runs in a CMD, it belongs in LaaS.
+
+---
+
+### How it changes your workflow:
+
+| Before LaaS | After LaaS |
+| --- | --- |
+| Opening 4 terminal tabs manually. | Click **"Start All"** from the Status Bar. |
+| Hunting for the "Vite" tab to check for errors. | Click the **"View Logs"** icon on the Vite card. |
+| Leaving ghost processes running after closing VS Code. | Graceful **Stop Commands** clean up your stack. |
+| Forgetting that one complex shell one-liner. | It's saved in your **Service Editor** for good. |
+
+---
 
 ## Features
 
 - **Sidebar panel** in the Activity Bar with per-service cards:
   - 🟢 Live status indicator (green = running, grey = stopped)
   - ▶ Start / ■ Stop buttons per service
-  - 🔗 ngrok public URL displayed automatically when detected
 - **Status bar buttons** — Start All, Stop All, Show Output
 - Separate named terminals for each service
-- ngrok URL opens in browser with one click
 
 ## Default commands
 
@@ -44,24 +75,3 @@ LaaS is a VS Code / Antigravity-compatible extension that gives you a **sidebar 
 }
 ```
 
-## Building
-
-```bash
-npm run compile   # one-off build
-npm run watch     # watch mode
-```
-
-Press **F5** in VS Code to launch the Extension Development Host.
-
-# 1. Install vsce (the VS Code Extension packaging tool)
-npm install -g @vscode/vsce
-
-# 2. Make sure the extension is compiled
-cd /Users/noone/Desktop/Laas
-npm run compile
-
-# 3. Package it into a .vsix file
-vsce package
-
-# 4. Install it in VS Code
-code --install-extension laas-0.1.0.vsix
