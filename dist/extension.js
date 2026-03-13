@@ -38,15 +38,13 @@ exports.deactivate = deactivate;
 const vscode = __importStar(require("vscode"));
 const cp = __importStar(require("child_process"));
 const os = __importStar(require("os"));
-// ─── Constants ─────────────────────────────────────────────────────────────────
 const STORAGE_KEY = 'laas.servers';
 const NGROK_URL_RE = /https:\/\/[^\s]+(?:ngrok\.io|ngrok-free\.app|ngrok\.app)[^\s]*/i;
 const DEFAULT_SERVERS = [
-    { id: 'laravel', title: 'Laravel', command: 'cd cashier-master-api && php artisan serve' },
-    { id: 'vite', title: 'Vite', command: 'cd cashier-master-front && npm run dev' },
+    { id: 'laravel', title: 'Laravel', command: 'php artisan serve' },
+    { id: 'vite', title: 'Vite', command: 'npm run dev' },
     { id: 'ngrok', title: 'ngrok', command: 'ngrok http 8000' },
 ];
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 function getNonce() {
     const c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     return Array.from({ length: 32 }, () => c[Math.floor(Math.random() * c.length)]).join('');
@@ -55,7 +53,6 @@ function makeId(title) {
     const base = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'server';
     return `${base}-${Date.now().toString(36)}`;
 }
-// ─── WebviewView Provider ─────────────────────────────────────────────────────
 class LaasWebviewProvider {
     resolveWebviewView(webviewView) {
         this.view = webviewView;
@@ -78,7 +75,6 @@ class LaasWebviewProvider {
     }
 }
 LaasWebviewProvider.viewId = 'laas.panel';
-// ─── Manager ──────────────────────────────────────────────────────────────────
 class LaasManager {
     constructor(ctx, provider) {
         this.servers = [];
@@ -92,13 +88,11 @@ class LaasManager {
         this.createStatusBar();
         this.pushState();
     }
-    // ── Persistence ────────────────────────────────────────────────────────────
     loadServers() {
         const stored = this.context.workspaceState.get(STORAGE_KEY);
         if (Array.isArray(stored) && stored.length > 0) {
             return stored;
         }
-        // Migrate from old VS Code settings if present
         const cfg = vscode.workspace.getConfiguration('laas');
         return [
             { id: 'laravel', title: 'Laravel', command: cfg.get('laravelCommand', DEFAULT_SERVERS[0].command) },
@@ -109,7 +103,6 @@ class LaasManager {
     async save() {
         await this.context.workspaceState.update(STORAGE_KEY, this.servers);
     }
-    // ── CRUD ──────────────────────────────────────────────────────────────────
     addServer(title, command) {
         this.servers.push({ id: makeId(title), title: title.trim(), command: command.trim() });
         void this.save();
@@ -139,7 +132,6 @@ class LaasManager {
         void this.save();
         this.pushState();
     }
-    // ── Server lifecycle ───────────────────────────────────────────────────────
     async startById(id) {
         const def = this.servers.find(s => s.id === id);
         if (!def) {
@@ -181,12 +173,9 @@ class LaasManager {
         await new Promise(r => setTimeout(r, 400));
         await this.startAll();
     }
-    // ── Process spawning ──────────────────────────────────────────────────────
     spawnServer(def) {
         const manager = this;
         const cwd = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? os.homedir();
-        // Use the user's login shell (e.g. zsh) with -l (login) and -i (interactive)
-        // so that ~/.zshrc is sourced and custom aliases / functions are available.
         const userShell = process.env.SHELL ?? '/bin/zsh';
         const proc = cp.spawn(userShell, ['-l', '-i', '-c', def.command], { cwd, env: { ...process.env } });
         let ngrokUrl = null;
@@ -232,7 +221,6 @@ class LaasManager {
         const terminal = vscode.window.createTerminal({ name: `LaaS — ${def.title}`, pty });
         return { terminal, proc, ngrokUrl };
     }
-    // ── Commands ───────────────────────────────────────────────────────────────
     registerCommands() {
         this.reg('laas.startAll', async () => this.startAll());
         this.reg('laas.stopAll', async () => this.stopAll());
@@ -291,13 +279,12 @@ class LaasManager {
     cfg(key, def) {
         return vscode.workspace.getConfiguration('laas').get(key, def);
     }
-    // ── Status bar ─────────────────────────────────────────────────────────────
     createStatusBar() {
         const side = this.cfg('statusBarAlignment', 'left') === 'right'
             ? vscode.StatusBarAlignment.Right : vscode.StatusBarAlignment.Left;
-        this.startBtn = this.makeBtn(side, 100, '$(play) LaaS', 'LaaS: Start All', 'laas.startAll');
-        this.stopBtn = this.makeBtn(side, 99, '$(stop) LaaS', 'LaaS: Stop All', 'laas.stopAll');
-        this.outputBtn = this.makeBtn(side, 98, '$(terminal) LaaS', 'LaaS: Show Output', 'laas.showOutput');
+        this.startBtn = this.makeBtn(side, 100, '$(play) LaaS', 'Start', 'laas.startAll');
+        this.stopBtn = this.makeBtn(side, 99, '$(stop) LaaS', 'Stop', 'laas.stopAll');
+        this.outputBtn = this.makeBtn(side, 98, '$(terminal) LaaS', 'Output', 'laas.showOutput');
         this.startBtn.show();
         this.outputBtn.show();
         this.context.subscriptions.push(this.startBtn, this.stopBtn, this.outputBtn);
@@ -328,7 +315,6 @@ class LaasManager {
             }
         }
     }
-    // ── State ──────────────────────────────────────────────────────────────────
     pushState() {
         this.updateStatusBar();
         this.provider.refresh({
@@ -378,7 +364,6 @@ class LaasManager {
         this.running.clear();
     }
 }
-// ─── HTML ─────────────────────────────────────────────────────────────────────
 function buildHtml(sn, scn) {
     return /* html */ `<!DOCTYPE html>
 <html lang="en">
@@ -620,7 +605,6 @@ window.addEventListener('message', ({data}) => {
 </body>
 </html>`;
 }
-// ─── Entry points ─────────────────────────────────────────────────────────────
 let manager;
 function activate(ctx) {
     const provider = new LaasWebviewProvider();

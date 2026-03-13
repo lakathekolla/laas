@@ -9,6 +9,14 @@
     "engines": {
         "vscode": "^1.85.0"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/lakruwanx/laas"
+    },
+    "homepage": "https://github.com/lakruwanx/laas#readme",
+    "bugs": {
+        "url": "https://github.com/lakruwanx/laas/issues"
+    },
     "categories": [
         "Other"
     ],
