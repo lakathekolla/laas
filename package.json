@@ -2,7 +2,7 @@
     "name": "laas",
     "displayName": "LaaS",
     "description": "Lazy as a Service for developers — launch, stop, restart, and monitor your local dev stack from one clean control panel.",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "publisher": "lakruwanx",
     "license": "MIT",
     "icon": "media/icon.png",
@@ -11,11 +11,11 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/lakruwanx/laas"
+        "url": "https://github.com/lakathekolla/laas"
     },
-    "homepage": "https://github.com/lakruwanx/laas#readme",
+    "homepage": "https://github.com/lakathekolla/laas#readme",
     "bugs": {
-        "url": "https://github.com/lakruwanx/laas/issues"
+        "url": "https://github.com/lakathekolla/laas/issues"
     },
     "categories": [
         "Other"
